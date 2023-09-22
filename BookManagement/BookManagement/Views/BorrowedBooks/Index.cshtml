@@ -1,0 +1,61 @@
+﻿@model IEnumerable<BookManagement.Models.BorrowedBook>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3>Borrowed Books</h3>
+        <div class="d-flex justify-content-end mb-1">
+            <a asp-action="Create" asp-controller="BorrowedBooks" class="btn btn-primary btn-sm">Create</a>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Member</th>
+                    <th>Book</th>
+                    <th>BorrowDate</th>
+                    <th>ReturnDate</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model)
+                {
+                    <tr id="tr_@m.BorrowedId">
+                        <td>@m.Member.FirstName</td>
+                        <td>@m.Book.Title</td>
+                        <td>@m.BorrowDate.ToString("yyyy-MM-dd")</td>
+                        <td>@m.ReturnDate.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <a asp-action="Edit" asp-controller="BorrowedBooks" asp-route-id="@m.BorrowedId" class="btn btn-secondary btn-sm">Edit</a>
+                            <button type="button" data-pk="@m.BorrowedId" class="btn btn-danger btn-sm del">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        $(".del").click(function () {
+            let id = $(this).data('pk');
+            //console.log(id);
+            if (confirm("Are you sure to Delete?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/BorrowedBooks/Delete/" + id,
+                    success: r => {
+                        $("#tr_" + id).remove();
+                    }
+                })
+            }
+        })
+    </script>
+}
+
+

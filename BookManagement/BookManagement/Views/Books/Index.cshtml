@@ -1,0 +1,62 @@
+﻿@model IEnumerable<BookManagement.Models.Book>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3>Books</h3>
+        <div class="d-flex justify-content-end mb-1">
+            <a asp-action="Create" asp-controller="Books" class="btn btn-primary btn-sm">Create</a>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Publication Year</th>
+                    <th>Price</th>
+                    <th>Total Pages</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var b in Model)
+                {
+                    <tr id="tr_@b.BookId">
+                        <td>@b.Title</td>
+                        <td>@b.Author</td>
+                        <td>@b.PublicationYear</td>
+                        <td>@b.Price.ToString("0.00")</td>
+                        <td>@b.TotalPage</td>
+                        <td>
+                            <a asp-action="Edit" asp-controller="Books" asp-route-id="@b.BookId" class="btn btn-secondary btn-sm">Edit</a>
+                            <button type="button" data-pk="@b.BookId" class="btn btn-danger btn-sm del">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        $(".del").click(function () {
+            let id = $(this).data('pk');
+            //console.log(id);
+            if (confirm("Are you sure to Delete?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Books/Delete/" + id,
+                    success: r => {
+                        $("#tr_" + id).remove();
+                    }
+                })
+            }
+        })
+    </script>
+}
+

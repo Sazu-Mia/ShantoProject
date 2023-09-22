@@ -1,0 +1,57 @@
+﻿@model BookManagement.Models.Member
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3>Create new Member</h3>
+        <form method="post" asp-action="Create" asp-controller="Members">
+            <div class="form-group row mb-2">
+                <label asp-for="FirstName" class="col-form-label col-2"></label>
+                <div class="col-4">
+                    <input type="text" asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-2">
+                <label asp-for="LastName" class="col-form-label col-2"></label>
+                <div class="col-4">
+                    <input type="text" asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-2">
+                <label asp-for="Email" class="col-form-label col-2"></label>
+                <div class="col-4">
+                    <input type="email" asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-2">
+                <label asp-for="Address" class="col-form-label col-2"></label>
+                <div class="col-4">
+                    <input type="text" asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-2">
+                <div class="col-4 offset-2">
+                    <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
+
+

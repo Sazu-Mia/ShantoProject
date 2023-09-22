@@ -1,0 +1,61 @@
+﻿@model IEnumerable<BookManagement.Models.Member>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3>Members</h3>
+        <div class="d-flex justify-content-end mb-1">
+            <a asp-action="Create" asp-controller="Members" class="btn btn-primary btn-sm">Create</a>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model)
+                {
+                    <tr id="tr_@m.MemberId">
+                        <td>@m.FirstName</td>
+                        <td>@m.LastName</td>
+                        <td>@m.Email</td>
+                        <td>@m.Address</td>
+                        <td>
+                            <a asp-action="Edit" asp-controller="Members" asp-route-id="@m.MemberId" class="btn btn-secondary btn-sm">Edit</a>
+                            <button type="button" data-pk="@m.MemberId" class="btn btn-danger btn-sm del">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        $(".del").click(function () {
+            let id = $(this).data('pk');
+            //console.log(id);
+            if (confirm("Are you sure to Delete?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Members/Delete/" + id,
+                    success: r => {
+                        $("#tr_" + id).remove();
+                    }
+                })
+            }
+        })
+    </script>
+}
+
+
